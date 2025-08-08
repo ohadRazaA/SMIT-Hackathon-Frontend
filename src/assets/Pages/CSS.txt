@@ -1,0 +1,49 @@
+/*** Remove Home Page Header Title ***/
+.page-title-bg {
+    display: none;
+}
+
+/*** Home - Banner Slider ***/
+.banner_slider .single-banner-image img, .banner_slider .single-banner-image {
+    border-radius: 5% !important;
+}
+
+/*** Home - Banner Location Checker ***/
+.ability-checker-shortcode-form .fb-availability-check-buton button {
+    min-width: 110px;
+}
+
+.ability-checker-shortcode-form .fb-locate-me-wrapper {
+    padding-right: 10px;
+    margin-right: 10px;
+}
+
+/*** Footer Text Color ***/
+.footer p, .footer a, .footer li, .footer span {
+    color: #000;
+}
+
+.banner_slider .single-banner-image {
+    padding: 0;
+}
+
+/*** My Account Page - Login & Register Side by Side ***/
+
+@media only screen and (min-width: 767px) {
+.woocommerce .col2-set .col-1, .woocommerce-page .col2-set .col-1, .woocommerce .col2-set .col-2, .woocommerce-page .col2-set .col-2 {
+    float: left;
+    width: 50%;
+}
+}
+
+@media only screen and (min-width: 1300px) {
+.banner-slider {
+    margin-right: 0;
+}
+}
+
+@media only screen and (min-width: 1500px) {
+.banner-slider {
+	margin-right: 0;
+}
+}
