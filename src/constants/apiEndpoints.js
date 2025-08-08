@@ -1,4 +1,4 @@
-export const BASE_URL = `http://localhost:5000/api`;
+export const BASE_URL = `https://smit-hackathon-backend-sable.vercel.app/api`;
 const apiEndPoints = {
     login: "/auth/login",
     signup: "/auth/signup"
