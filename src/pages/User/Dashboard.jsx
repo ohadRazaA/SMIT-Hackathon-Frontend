@@ -1,39 +1,35 @@
 import React from 'react'
-import Button from '@mui/material/Button';
-import axios from 'axios';
-import Cookies from "js-cookie"
+import Box from '@mui/material/Box'
+import Cards from '../../components/Cards'
+import { useFetchData } from '../../hooks/useFetchData'
+import apiEndPoints, { BASE_URL } from '../../constants/apiEndpoints'
+import Cookies from 'js-cookie'
+import CircularProgress from '@mui/material/CircularProgress'
+import Select from '../../components/Select'
+
 
 const Dashboard = () => {
-  const [logoImage, setLogoImage] = React.useState();
-  const uploadImg = async () => {
-    if (logoImage) {
-      const formData = new FormData()
-      formData.append("image", logoImage)
-      const imageRes = await axios.post("http://localhost:5000/hello", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "Authorization": `Bearer ${Cookies.get("token")}`
-        }
-      });
-      console.log(imageRes);
-    }
-  }
+  // const { data, isLoading, error } = useFetchData(
+  //   'loan-category',
+  //   `${BASE_URL}${apiEndPoints.getLoanCategory}`,
+  //   {},
+  //   { Authorization: `Bearer ${Cookies.get("token")}` },
+  //   {
+  //     staleTime: 1000 * 60 * 60, // 1 hour fresh
+  //     gcTime: 1000 * 60 * 30, // remove from cache after 30 min inactive
+  //     refetchOnWindowFocus: false, // don’t annoy user
+  //     refetchOnReconnect: true, // in case of network drop
+  //     retry: false, // don’t retry on permanent failures like 404
+  //   }
+  // );
+
+  // console.log(data?.data);
+
+  // if(isLoading) return <Box className='!my-5 flex items-center justify-center gap-4'><CircularProgress /> Loading...</Box> 
 
   return (
-    <div>
-      <Button variant="outlined" component="label">
-        Upload Image
-        <input
-          type="file"
-          accept="image/*"
-          hidden
-          name="logo"
-          onChange={(e) => setLogoImage(e.target.files[0])}
-        />
-      </Button>
-      <button onClick={uploadImg}>Add Image</button>
-    </div>
-  )
-}
+      <></>
+  );
+};
 
 export default Dashboard

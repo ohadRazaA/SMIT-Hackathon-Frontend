@@ -1,17 +1,25 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import apiEndPoints, { BASE_URL } from "../../constants/apiEndpoints";
 import Cookies from "js-cookie"
+import CircularProgress from '@mui/material/CircularProgress';
+import { AuthContext } from "../../context api/AuthContext";
+import Input from "../../components/Input";
+import Button from "../../components/Button";
+import Box from "@mui/material/Box";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const { loader, setLoader } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const login = async () => {
     try {
+      setLoader(true);
       const res = await axios.post(`${BASE_URL}${apiEndPoints.login}`, {
         email,
         password
@@ -21,51 +29,68 @@ const Login = () => {
         throw res.data.message
       }
       Cookies.set("token", res.data.token);
-      navigate('/dashboard  ');
+      console.log(res.data);
+      setLoader(false);
+      toast.success("Logged In Successfully", {
+        autoClose: 3000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true
+      });
+      res?.data?.data?.type === 'admin' ? navigate('/admin-dashboard') : navigate('/dashboard')
+      
 
     } catch (error) {
       console.log(error);
+      setError(error.response.data.message);
+      toast.error(error.response.data.message, {
+        autoClose: 2000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true
+      });
+      setLoader(false);
     }
   };
 
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-orange-50">
+    <Box sx={{ bgcolor: 'background.light' }} className="flex items-center justify-center min-h-screen">
       <div className="w-full max-w-md bg-white !p-6 rounded-2xl shadow-lg">
         <h2 className="text-2xl font-semibold text-center text-gray-700 !mb-4">Login</h2>
         <div className="space-y-4">
+          <Input
+            variant={"outlined"}
+            type="email"
+            className="w-full !my-2 focus:!outline-none focus:!ring-2 focus:!ring-orange-400"
+            placeholder="john@example.com"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            label="Email"
+          />
           <div className="!my-2">
-            <label className="block text-gray-600 text-sm !mb-1">Email</label>
-            <input
-              type="email"
-              className="w-full !p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
-              placeholder="john@example.com"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-            />
-          </div>
-          <div className="!my-2">
-            <label className="block text-gray-600 text-sm !mb-1">Password</label>
-            <input
+            <Input
+              variant={"outlined"}
               type="password"
-              className="w-full !p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
+              className="w-full"
               placeholder="••••••••"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
+              label="Password"
             />
             <p className="text-red-700 !mt-1">{error}</p>
           </div>
           <div>
-            <button className="w-full bg-orange-400 text-white !py-2 !my-4 rounded-lg hover:bg-orange-500 transition cursor-pointer" onClick={login}>
-              Login
-            </button>
+            <Button variant={"contained"} className="w-full flex justify-center items-center gap-2" onClick={login} >
+              Login  {loader && <CircularProgress color="text.medium" size={20} />}
+            </Button>
             <p className="text-center ">
               Don't have an account? <Link className="text-blue-400 hover:text-blue-600" to="/signup">Sign Up</Link>
             </p>
           </div>
         </div>
       </div>
-    </div>
+    </Box>
   );
 };
 

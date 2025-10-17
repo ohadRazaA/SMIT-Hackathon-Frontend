@@ -1,14 +1,19 @@
 import React from 'react'
 import banner from '../assets/Footer BG.png'
 import logo from '../assets/logo.png'
+import Box from '@mui/material/Box';
 
 function Footer() {
   return (
-    <div style={{ backgroundImage: `url(${banner})` }}>
+    <Box
+      sx={{ backgroundColor: 'background.primary', color: 'text.light' }}
+    // style={{ backgroundImage: `url(${banner})` }}
+    >
       <footer className="!py-8">
         <div className="container !mx-auto !px-4">
           <div className="flex flex-col md:flex-row justify-between items-center border-b border-gray-700 !pb-6">
-            <img src={logo} alt="" />
+            {/* <img src={logo} alt="" /> */}
+            <h1>LOGO</h1>
             <nav className="flex gap-6 !mt-4 md:!mt-0">
               <a href="#" className="hover:text-gray-400 transition">Home</a>
               <a href="#" className="hover:text-gray-400 transition">About</a>
@@ -35,7 +40,7 @@ function Footer() {
           </div>
         </div>
       </footer>
-    </div>
+    </Box>
   )
 }
 
