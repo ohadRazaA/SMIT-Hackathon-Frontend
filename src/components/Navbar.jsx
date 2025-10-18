@@ -198,6 +198,7 @@ function Navbar() {
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} aria-label="open user menu" aria-controls={Boolean(anchorElUser) ? 'user-menu-appbar' : undefined} aria-expanded={Boolean(anchorElUser) ? 'true' : undefined} aria-haspopup="true">
                 {
                   // !isLoading && <Avatar sx={{ bgcolor: 'background.medium' }} alt={`${firstName || 'User'}`} src="/static/images/avatar/2.jpg" />
+                  <Avatar sx={{ bgcolor: 'background.medium' }} alt={`${firstName || 'User'}`} src="/static/images/avatar/2.jpg" />
                 }
 
               </IconButton>
@@ -225,7 +226,7 @@ function Navbar() {
                 <Typography sx={{ textAlign: 'center' }}>Dashboard</Typography>
               </MenuItem>
               <MenuItem onClick={() => { handleCloseUserMenu(); logout(); }}>
-                <Typography sx={{ textAlign: 'center' }}>Logout</Typography>
+                <Typography onClick={logout} sx={{ textAlign: 'center' }}>Logout</Typography>
               </MenuItem>
             </Menu>
           </Box>

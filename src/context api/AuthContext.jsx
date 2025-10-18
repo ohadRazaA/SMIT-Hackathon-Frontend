@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { cache } from 'react';
 import { createContext, useState } from 'react'
 import Cookies from 'js-cookie'
 import { useFetchData } from '../hooks/useFetchData';
@@ -18,18 +18,18 @@ function AuthProvider({ children }) {
     {},
     { Authorization: `Bearer ${Cookies.get("token")}` },
     {
-      gcTime: 1000 * 60 * 60 * 24,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
-      retry: false,
-      staleTime: 0,
-      refetchOnMount: "always",
-      enabled: !!token
+      retry: 1,
+      staleTime: 5000,
+      refetchOnMount: false,
+      cacheTime: 1000 * 60 * 5,
+      enabled: !!token,
+      keepPreviousData: true,
     }
   );
 
   const logout = () => {
-    setUser(null)
     Cookies.remove('token');
     navigate('/')
   };

@@ -28,7 +28,7 @@ const Dashboard = () => {
   // if(isLoading) return <Box className='!my-5 flex items-center justify-center gap-4'><CircularProgress /> Loading...</Box> 
 
   return (
-      <></>
+      <>User Dashboard</>
   );
 };
 

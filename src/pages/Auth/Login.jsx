@@ -28,17 +28,13 @@ const Login = () => {
         console.log("error", res.data.message)
         throw res.data.message
       }
-      Cookies.set("token", res.data.token);
       console.log(res.data);
       setLoader(false);
-      toast.success("Logged In Successfully", {
-        autoClose: 3000,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true
-      });
-      res?.data?.data?.type === 'admin' ? navigate('/admin-dashboard') : navigate('/dashboard')
-      
+
+      const type = res?.data?.data?.type;
+      if (!res.data.isVerified || res.data.data.TwoFAEnabled) {
+        navigate('/otp-verification', { state: { email, page: "login", type, id: res?.data?.data?._id } });
+      }
 
     } catch (error) {
       console.log(error);
