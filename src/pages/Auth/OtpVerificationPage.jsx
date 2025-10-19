@@ -55,6 +55,9 @@ const OtpVerificationPage = () => {
                         draggable: true
                     });
                     console.log('Verifying OTP:', otp);
+                    console.log('Response:', res.data.token);
+                    Cookies.set('token', res.data.token);
+
                 } else {
                     alert(res.data.message)
                 }

@@ -24,22 +24,25 @@ const Login = () => {
         email,
         password
       });
+      
       if (!res.data.status) {
-        console.log("error", res.data.message)
-        throw res.data.message
+        throw new Error(res.data.message);
       }
-      console.log(res.data);
+      
       setLoader(false);
 
       const type = res?.data?.data?.type;
       if (!res.data.isVerified || res.data.data.TwoFAEnabled) {
         navigate('/otp-verification', { state: { email, page: "login", type, id: res?.data?.data?._id } });
+      } else if (res.data.token) {
+        Cookies.set('token', res.data.token);
+        navigate(type === 'admin' ? '/admin-dashboard' : '/dashboard');
       }
 
     } catch (error) {
       console.log(error);
-      setError(error.response.data.message);
-      toast.error(error.response.data.message, {
+      // setError(error.response?.data?.message || error.message);
+      toast.error(error.response?.data?.message || error.message, {
         autoClose: 2000,
         closeOnClick: true,
         pauseOnHover: true,
@@ -49,14 +52,13 @@ const Login = () => {
     }
   };
 
-
   return (
     <Box sx={{ bgcolor: 'background.light' }} className="flex items-center justify-center min-h-screen">
       <div className="w-full max-w-md bg-white !p-6 rounded-2xl shadow-lg">
         <h2 className="text-2xl font-semibold text-center text-gray-700 !mb-4">Login</h2>
         <div className="space-y-4">
           <Input
-            variant={"outlined"}
+            variant="outlined"
             type="email"
             className="w-full !my-2 focus:!outline-none focus:!ring-2 focus:!ring-orange-400"
             placeholder="john@example.com"
@@ -66,7 +68,7 @@ const Login = () => {
           />
           <div className="!my-2">
             <Input
-              variant={"outlined"}
+              variant="outlined"
               type="password"
               className="w-full"
               placeholder="••••••••"
@@ -74,13 +76,18 @@ const Login = () => {
               value={password}
               label="Password"
             />
-            <p className="text-red-700 !mt-1">{error}</p>
+            {/* <p className="text-red-700 !mt-1">{error}</p> */}
           </div>
           <div>
-            <Button variant={"contained"} className="w-full flex justify-center items-center gap-2" onClick={login} >
-              Login  {loader && <CircularProgress color="text.medium" size={20} />}
+            <Button variant="contained" className="w-full flex justify-center items-center gap-2" onClick={login}>
+              Login {loader && <CircularProgress color="text.medium" size={20} />}
             </Button>
-            <p className="text-center ">
+            <div className="text-center !mt-2">
+              <Link className="text-blue-400 hover:text-blue-600 text-sm" to="/forgot-password">
+                Forgot Password?
+              </Link>
+            </div>
+            <p className="text-center">
               Don't have an account? <Link className="text-blue-400 hover:text-blue-600" to="/signup">Sign Up</Link>
             </p>
           </div>
